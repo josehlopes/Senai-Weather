@@ -1,9 +1,12 @@
 package com.example.senaiweather;
 
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -11,13 +14,16 @@ import android.widget.TextView;
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
 import org.json.JSONObject;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,10 +66,19 @@ public class MainActivity extends AppCompatActivity {
         searchIV = findViewById(R.id.idIVSearch);
         wheaterIconIV = findViewById(R.id.idIVBack);
         backgroundIV = findViewById(R.id.idIVBack);
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        searchIV.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String cityName2 = cityNameImput.getText().toString();
+                getWheaterInfo(cityName2);
+            }
 
-        String cityName2 = "Jequie";
+        });
+
+
+    }
+    public void getWheaterInfo(String cityName2) {
+
         String url = "https://api.weatherapi.com/v1/current.json?key=" + API_KEY + "&q=" + cityName2;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -74,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             String changeCity = jsonResponse.getJSONObject("location").getString("name");
                             cityName.setText(changeCity);
-                            String chanceTemp = jsonResponse.getJSONObject("current").getString("temp_c");
-                            temperature.setText(chanceTemp);
+                            String changeTemp = jsonResponse.getJSONObject("current").getString("temp_c");
+                            temperature.setText(String.format("%.1f°C", Float.parseFloat(changeTemp)));
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -89,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        Volley.newRequestQueue(this).add(stringRequest);
-
+        Volley.newRequestQueue(MainActivity.this).add(stringRequest);
     }
 
 }
