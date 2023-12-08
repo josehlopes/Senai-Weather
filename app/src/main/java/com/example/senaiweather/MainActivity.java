@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.api.internal.ApiKey;
 import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         wheaterRV = findViewById(R.id.idRVWeather);
         cityNameImput = findViewById(R.id.idEDTCity);
         searchIV = findViewById(R.id.idIVSearch);
-        wheaterIconIV = findViewById(R.id.idIVBack);
+        wheaterIconIV = findViewById(R.id.idIVIcon);
         backgroundIV = findViewById(R.id.idIVBack);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         searchIV.setOnClickListener(new View.OnClickListener() {
@@ -88,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        
+
     }
     public void getWheaterInfo(String cityName2) {
 
-        String url = "https://api.weatherapi.com/v1/current.json?key=" + API_KEY + "&q=" + cityName2;
+        String url = "https://api.weatherapi.com/v1/current.json?key=" + API_KEY + "&q=" + cityName2 + "&lang=pt";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -104,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
                             cityName.setText(changeCity);
                             String changeTemp = jsonResponse.getJSONObject("current").getString("temp_c");
                             temperature.setText(String.format("%.1f°C", Float.parseFloat(changeTemp)));
+                            String changeCondition = jsonResponse.getJSONObject("current").getJSONObject("condition").getString("text");
+                            condition.setText(changeCondition);
+
+                            String changeIcon = "https:" + jsonResponse.getJSONObject("current").getJSONObject("condition").getString("icon");
+                            Picasso.get().load(changeIcon).into(wheaterIconIV);
+
 
                         } catch (Exception e) {
                             e.printStackTrace();
