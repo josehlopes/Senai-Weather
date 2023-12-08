@@ -8,8 +8,10 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 
 import android.widget.ProgressBar;
@@ -186,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                             String changeIcon = "https:" + jsonResponse.getJSONObject("current").getJSONObject("condition").getString("icon");
                             Picasso.get().load(changeIcon).into(iconIV);
 
+
                             int isDay = jsonResponse.getJSONObject("current").getInt("is_day");
                             if(isDay==1){
                                 //Dia
@@ -238,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(com.android.volley.VolleyError error) {
-                        Log.e("MeuApp", "Erro na chamada à API: " + error.getMessage());
+                        Log.e("Senai-Wheather:", "Erro na chamada à API: " + error.getMessage());
                     }
                 });
 
