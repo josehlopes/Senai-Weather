@@ -38,6 +38,7 @@ import org.json.JSONException;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.api.internal.ApiKey;
@@ -96,11 +97,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
         } else {
+            // Se as permissões já foram concedidas, continua com a obtenção da localização.
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, location -> {
                         if (location != null) {
@@ -160,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getWeatherInfo(String cityName2) {
 
-        String url = "https://api.weatherapi.com/v1/current.json?key=" + API_KEY + "&q=" + cityName2+"&days=6&aqi=no&alerts=no&lang=pt";
+        String url = "https://api.weatherapi.com/v1/forecast.json?key=" + API_KEY + "&q=" + cityName2+"&days=6&aqi=no&alerts=no&lang=pt";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
 
@@ -176,13 +179,14 @@ public class MainActivity extends AppCompatActivity {
                             cityName.setText(changeCity);
                             String changeTemp = jsonResponse.getJSONObject("current").getString("temp_c");
                             temperature.setText(String.format("%.1f°C", Float.parseFloat(changeTemp)));
-                            /////////////////////////////////////////////////////////////////////
+
+                            String changeCondition = jsonResponse.getJSONObject("current").getJSONObject("condition").getString("text");
+                            conditionTV.setText(changeCondition);
+
+                            String changeIcon = "https:" + jsonResponse.getJSONObject("current").getJSONObject("condition").getString("icon");
+                            Picasso.get().load(changeIcon).into(iconIV);
 
                             int isDay = jsonResponse.getJSONObject("current").getInt("is_day");
-                            String condition = jsonResponse.getJSONObject("current").getJSONObject("condition").getString("text");
-                            String conditionIcon = jsonResponse.getJSONObject("current").getJSONObject("condition").getString("icon");
-                            Picasso.get().load("http:".concat(conditionIcon)).into(iconIV);
-                            conditionTV.setText(condition);
                             if(isDay==1){
                                 //Dia
                                 Picasso.get().load("https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?ixid=MnwxMjA3FDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80").into(backIV);
@@ -192,10 +196,12 @@ public class MainActivity extends AppCompatActivity {
                             }
 
 
+
                             JSONObject forecastObj = jsonResponse.getJSONObject("forecast");
                             JSONObject forecastO = forecastObj.getJSONArray("forecastday").getJSONObject(0);
                             JSONArray hourArray = forecastO.getJSONArray("hour");
 
+                            weatherRVModalArrayList.clear();
                             for(int i=0; i<hourArray.length();i++){
                                 JSONObject hourObj = hourArray.getJSONObject(i);
                                 String time = hourObj.getString("time");
@@ -219,10 +225,10 @@ public class MainActivity extends AppCompatActivity {
                                 weatherDaysRVModalArrayList.add(new WeatherDaysRVModal(date, temper, img, wind));
                             }
                             weatherDaysRVAdapter.notifyDataSetChanged();
-
+                            Log.d("JSON_RESPONSE", "Resposta completa: " + response.toString());
 
                         } catch (Exception e) {
-                            Log.e("MeuApp", "Erro durante o processamento da resposta JSON: " + e.getMessage());
+                            Log.e("JSON_ERROR", "Erro no parsing JSON: " + e.getMessage());
                             e.printStackTrace();
 
 
