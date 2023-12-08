@@ -3,8 +3,10 @@ package com.example.senaiweather;
 import android.location.LocationManager;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 
 import android.widget.ProgressBar;
@@ -75,7 +77,18 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-
+        cityNameImput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE || (event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    String cityName2 = cityNameImput.getText().toString();
+                    getWheaterInfo(cityName2);
+                    return true;
+                }
+                return false;
+            }
+        });
+        
     }
     public void getWheaterInfo(String cityName2) {
 
@@ -100,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(com.android.volley.VolleyError error) {
-                        Log.e("MeuApp", "Erro na chamada à API: " + error.getMessage());
+                        Log.e("Senai-Wheather:", "Erro na chamada à API: " + error.getMessage());
                     }
                 });
 
