@@ -48,6 +48,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -189,13 +191,25 @@ public class MainActivity extends AppCompatActivity {
                             Picasso.get().load(changeIcon).into(iconIV);
 
 
+                            String localTimeString = jsonResponse.getJSONObject("location").getString("localtime");
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                            LocalDateTime localDateTime = LocalDateTime.parse(localTimeString, formatter);
+                            int hour = localDateTime.getHour();
+
                             int isDay = jsonResponse.getJSONObject("current").getInt("is_day");
-                            if(isDay==1){
-                                //Dia
-                                Picasso.get().load("https://images.unsplash.com/photo-1566228015668-4c45dbc4e2f5?ixid=MnwxMjA3FDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80").into(backIV);
-                            }else {
-                                //Noite
-                                Picasso.get().load("https://images.unsplash.com/photo-1532074534361-bb09a38cf917?ixid=MnwxMjA3fDB8MHxwa690by1wYWdLfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80").into(backIV);
+
+                            if (isDay == 1 && hour <= 17) {
+                                // Dia
+                                backIV.setImageResource(R.drawable.dia);
+                                Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
+                            } else if (hour >= 17 && hour < 18) {
+                                // Tarde
+                                backIV.setImageResource(R.drawable.tarde);
+                                Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
+                            } else {
+                                // Noite
+                                backIV.setImageResource(R.drawable.noite);
+                                Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             }
 
 
