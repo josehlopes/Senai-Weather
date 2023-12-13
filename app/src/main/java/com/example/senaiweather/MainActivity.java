@@ -192,23 +192,46 @@ public class MainActivity extends AppCompatActivity {
 
 
                             String localTimeString = jsonResponse.getJSONObject("location").getString("localtime");
+                            Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
+                            if (localTimeString.length() < 16) {
+                                Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString.length());
+                                String[] split = new String[3];
+                                String[] split2 = localTimeString.split(" ");
+                                split[0] = split2[0];
+                                split[1] = " 0";
+                                split[2] = split2[1];
+                                localTimeString = split.toString();
+                                Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString);
+                                Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString.length());
+
+
+                            }
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                             LocalDateTime localDateTime = LocalDateTime.parse(localTimeString, formatter);
                             int hour = localDateTime.getHour();
 
                             int isDay = jsonResponse.getJSONObject("current").getInt("is_day");
-
-                            if (isDay == 1 && hour <= 17) {
-                                // Dia
-                                backIV.setImageResource(R.drawable.dia);
+                            Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
+                            if (isDay == 0 ) {
+                                // noite
+                                backIV.setImageResource(R.drawable.noite);
+                                Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
+                                Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
+                                Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             } else if (hour >= 17 && hour < 18) {
                                 // Tarde
                                 backIV.setImageResource(R.drawable.tarde);
+                                Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
+                                Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
+                                Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             } else {
-                                // Noite
-                                backIV.setImageResource(R.drawable.noite);
+                                // dia
+                                backIV.setImageResource(R.drawable.dia);;
+                                Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
+                                Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
+                                Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             }
 
