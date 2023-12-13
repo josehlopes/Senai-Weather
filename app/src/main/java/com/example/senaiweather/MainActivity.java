@@ -27,7 +27,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -129,18 +131,18 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
-        @Override
-        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@NonNull int[] grantResults){
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            if (requestCode == PERMISSION_CODE) {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permissão garantida", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "Forneça as permissões", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,@NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permissão garantida", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Forneça as permissões", Toast.LENGTH_SHORT).show();
+                finish();
             }
         }
+    }
 
     private String getCityName(double longitude, double latitude) {
         String cityName2 = null;
@@ -168,26 +170,26 @@ public class MainActivity extends AppCompatActivity {
     public void getWeatherInfo(String cityName2) {
 
         String url = "https://api.weatherapi.com/v1/forecast.json?key=" + API_KEY + "&q=" + cityName2+"&days=6&aqi=no&alerts=no&lang=pt";
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-
-                new Response.Listener<String>() {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(String response) {
+                    public void onResponse(JSONObject response) {
                         homeLoading.setVisibility(View.GONE);
                         homeRL.setVisibility(View.VISIBLE);
                         weatherRVModalArrayList.clear();
                         try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            String changeCity = jsonResponse.getJSONObject("location").getString("name");
+                            JSONObject jsonResponse = response.getJSONObject("current");
+                            String changeCity = response.getJSONObject("location").getString("name");
                             cityName.setText(changeCity);
-                            String changeTemp = jsonResponse.getJSONObject("current").getString("temp_c");
+                            String changeTemp = response.getJSONObject("current").getString("temp_c");
                             temperature.setText(String.format("%.1f°C", Float.parseFloat(changeTemp)));
 
-                            String changeCondition = jsonResponse.getJSONObject("current").getJSONObject("condition").getString("text");
+                            String changeCondition = response.getJSONObject("current").getJSONObject("condition").getString("text");
                             conditionTV.setText(changeCondition);
 
-                            String changeIcon = "https:" + jsonResponse.getJSONObject("current").getJSONObject("condition").getString("icon");
+                            String changeIcon = "https:" + response.getJSONObject("current").getJSONObject("condition").getString("icon");
                             Picasso.get().load(changeIcon).into(iconIV);
 
 
@@ -203,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
                                 localTimeString = split.toString();
                                 Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString);
                                 Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString.length());
-
 
                             }
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -237,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                            JSONObject forecastObj = jsonResponse.getJSONObject("forecast");
+                            JSONObject forecastObj = response.getJSONObject("forecast");
                             JSONObject forecastO = forecastObj.getJSONArray("forecastday").getJSONObject(0);
                             JSONArray hourArray = forecastO.getJSONArray("hour");
 
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             weatherRVAdapter.notifyDataSetChanged();
 
-                            JSONObject forecastObDays = jsonResponse.getJSONObject("forecast");
+                            JSONObject forecastObDays = response.getJSONObject("forecast");
                             JSONArray forecastDaysArray = forecastObDays.getJSONArray("forecastday");
                             weatherDaysRVModalArrayList.clear();
 
@@ -282,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        Volley.newRequestQueue(MainActivity.this).add(stringRequest);
+        requestQueue.add(jsonObjectRequest);
     }
 
 }
