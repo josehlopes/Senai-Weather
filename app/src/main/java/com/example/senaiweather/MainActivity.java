@@ -180,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
                         homeRL.setVisibility(View.VISIBLE);
                         weatherRVModalArrayList.clear();
                         try {
+
                             JSONObject jsonResponse = response.getJSONObject("current");
                             String changeCity = response.getJSONObject("location").getString("name");
                             cityName.setText(changeCity);
@@ -192,30 +193,22 @@ public class MainActivity extends AppCompatActivity {
                             String changeIcon = "https:" + response.getJSONObject("current").getJSONObject("condition").getString("icon");
                             Picasso.get().load(changeIcon).into(iconIV);
 
+                            String localTimeString = response.getJSONObject("location").getString("localtime");
+                            Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString.length());
 
-                            String localTimeString = jsonResponse.getJSONObject("location").getString("localtime");
-                            Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
-                            if (localTimeString.length() < 16) {
-                                Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString.length());
-                                String[] split = new String[3];
-                                String[] split2 = localTimeString.split(" ");
-                                split[0] = split2[0];
-                                split[1] = " 0";
-                                split[2] = split2[1];
-                                localTimeString = split.toString();
-                                Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString);
-                                Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString.length());
-
+                            if (localTimeString.length() == 15) {
+                                localTimeString = localTimeString.substring(0, 11) + "0" + localTimeString.substring(11);
                             }
+
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                             LocalDateTime localDateTime = LocalDateTime.parse(localTimeString, formatter);
-                            int hour = localDateTime.getHour();
 
-                            int isDay = jsonResponse.getJSONObject("current").getInt("is_day");
-                            Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
-                            if (isDay == 0 ) {
-                                // noite
-                                backIV.setImageResource(R.drawable.noite);
+                            int hour = localDateTime.getHour();
+                            int isDay = response.getJSONObject("current").getInt("is_day");
+
+                            if (isDay == 1 ) {
+                                // Dia
+                                backIV.setImageResource(R.drawable.dia);
                                 Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
                                 Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
@@ -228,15 +221,13 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             } else {
-                                // dia
-                                backIV.setImageResource(R.drawable.dia);;
+                                //Noite
+                                backIV.setImageResource(R.drawable.noite);;
                                 Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
                                 Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             }
-
-
 
                             JSONObject forecastObj = response.getJSONObject("forecast");
                             JSONObject forecastO = forecastObj.getJSONArray("forecastday").getJSONObject(0);
