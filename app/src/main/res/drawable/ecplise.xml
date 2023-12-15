@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!-- drawable/marca_o_das.xml -->
+    <vector
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="824.88dp"
+        android:height="824.88dp"
+        android:viewportWidth="824.88"
+        android:viewportHeight="824.88"
+        >
+
+        <group>
+            <clip-path
+                android:pathData="M809.881 412.441C809.881 631.941 631.941 809.881 412.441 809.881C192.94 809.881 15 631.941 15 412.441C15 192.94 192.94 15 412.441 15C631.941 15 809.881 192.94 809.881 412.441Z"
+                />
+            <path
+                android:pathData="M15 15V809.881H809.881V15"
+                android:fillColor="#4D000000"
+                />
+        </group>
+        <group>
+            <clip-path
+                android:pathData="M0 0V824.881H824.881V0M809.881 412.441C809.881 631.941 631.941 809.881 412.441 809.881C192.94 809.881 15 631.941 15 412.441C15 192.94 192.94 15 412.441 15C631.941 15 809.881 192.94 809.881 412.441Z"
+                />
+        </group>
+    </vector>
+

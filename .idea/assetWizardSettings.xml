@@ -28,8 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_search" />
-                            <entry key="sourceFile" value="C:\Users\Henrique\Documents\GitHub\Senai-Weather" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="tela3" />
+                            <entry key="sourceFile" value="C:\Users\thiag\Downloads\tela3.svg" />
                           </map>
                         </option>
                       </PersistentState>

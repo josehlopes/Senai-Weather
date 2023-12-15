@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     public String API_URL = "https://api.weatherapi.com/v1";
     private RelativeLayout homeRL;
     private ProgressBar homeLoading;
-    private TextView cityName, temperature, conditionTV;
+    private TextView cityName, temperature, conditionTV, humidityTV, windTV;
     private RecyclerView weatherRV;
     private RecyclerView weatherDaysRV;
     private ArrayList<WeatherRVModal> weatherRVModalArrayList;
@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
         cityName = findViewById(R.id.idTVCityName);
         temperature = findViewById(R.id.idTVTemperature);
         conditionTV = findViewById(R.id.idTVCondition);
+        humidityTV = findViewById(R.id.idTVHumidity);
+        windTV = findViewById(R.id.idTVWind);
         weatherRV = findViewById(R.id.idRVWeather);
         weatherDaysRV = findViewById(R.id.idRVWeatherDays);
         cityNameImput = findViewById(R.id.idEDTCity);
@@ -193,6 +195,12 @@ public class MainActivity extends AppCompatActivity {
                             String changeIcon = "https:" + response.getJSONObject("current").getJSONObject("condition").getString("icon");
                             Picasso.get().load(changeIcon).into(iconIV);
 
+                            String changeHumidity = response.getJSONObject("current").getString("humidity");
+                            humidityTV.setText(changeHumidity + " %");
+
+                            String changeWind = response.getJSONObject("current").getString("wind_kph");
+                            windTV.setText(changeWind + "km/h");
+
                             String localTimeString = response.getJSONObject("location").getString("localtime");
                             Log.d("TIME_INFO2", "Hora String (hour): " + localTimeString.length());
 
@@ -208,21 +216,21 @@ public class MainActivity extends AppCompatActivity {
 
                             if (isDay == 1 ) {
                                 // Dia
-                                backIV.setImageResource(R.drawable.dia);
+                                backIV.setImageResource(R.drawable.tela1);
                                 Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
                                 Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             } else if (hour >= 17 && hour < 18) {
                                 // Tarde
-                                backIV.setImageResource(R.drawable.tarde);
+                                backIV.setImageResource(R.drawable.tela3);
                                 Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
                                 Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             } else {
                                 //Noite
-                                backIV.setImageResource(R.drawable.noite);;
+                                backIV.setImageResource(R.drawable.tela2__1_);;
                                 Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
                                 Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
