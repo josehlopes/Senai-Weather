@@ -2,8 +2,8 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="1080px"
+    android:layout_height="2452px"
     android:background="@color/black_shade_1"
     tools:context=".MainActivity">
 
@@ -21,14 +21,14 @@
         <RelativeLayout
             android:id="@+id/idRLHome"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="visible">
 
 
             <ImageView
                 android:id="@+id/idIVBack"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="1080px"
+                android:layout_height="2452px"
                 android:scaleType="fitStart"
                 android:src="@drawable/tela2__1_"
                 />
@@ -197,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/idRVWeather"
-                android:layout_marginTop="85dp"
+                android:layout_marginTop="80dp"
                 android:layout_marginBottom="161dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
