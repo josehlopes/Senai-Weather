@@ -70,27 +70,17 @@
       </aapt:attr>
     </path>
     <path
-        android:pathData="M554.5,737.5m-222.5,0a222.5,222.5 0,1 1,445 0a222.5,222.5 0,1 1,-445 0"
-        android:fillColor="#0F0B0B"
-        android:fillAlpha="0.1"/>
-    <path
         android:pathData="M317.3,1064.7C317.3,1042.6 335.2,1024.7 357.3,1024.7H755.9C778,1024.7 795.9,1042.6 795.9,1064.7V1080.2C795.9,1102.3 778,1120.2 755.9,1120.2H357.3C335.2,1120.2 317.3,1102.3 317.3,1080.2V1064.7Z"
         android:fillColor="#000000"
         android:fillAlpha="0.1"/>
     <path
-        android:pathData="M343.5,952.8L616.7,952.8A26.2,26.2 0,0 1,642.9 979L642.9,979A26.2,26.2 0,0 1,616.7 1005.2L343.5,1005.2A26.2,26.2 0,0 1,317.3 979L317.3,979A26.2,26.2 0,0 1,343.5 952.8z"
+        android:pathData="M343,953L770,953A26,26 0,0 1,796 979L796,979A26,26 0,0 1,770 1005L343,1005A26,26 0,0 1,317 979L317,979A26,26 0,0 1,343 953z"
         android:fillColor="#000000"
         android:fillAlpha="0.1"/>
     <path
         android:strokeWidth="1"
         android:pathData="M557.1,1024.7L557.1,1120.2"
         android:strokeAlpha="0.3"
-        android:fillColor="#00000000"
-        android:strokeColor="#ffffff"/>
-    <path
-        android:strokeWidth="1"
-        android:pathData="M665,913.8C665,891.9 682.6,874.3 704.5,874.3H755.9C777.7,874.3 795.4,891.9 795.4,913.8V965.2C795.4,987 777.7,1004.7 755.9,1004.7H704.5C682.6,1004.7 665,987 665,965.2V913.8Z"
-        android:strokeAlpha="0.1"
         android:fillColor="#00000000"
         android:strokeColor="#ffffff"/>
     <path

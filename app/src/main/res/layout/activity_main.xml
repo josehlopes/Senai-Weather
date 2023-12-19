@@ -16,13 +16,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <RelativeLayout
             android:id="@+id/idRLHome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible">
+            android:visibility="gone">
 
 
             <ImageView
@@ -30,7 +30,7 @@
                 android:layout_width="1080px"
                 android:layout_height="2452px"
                 android:scaleType="fitStart"
-                android:src="@drawable/tela2__1_"
+                android:src="@drawable/tela_noite"
                 />
 
             <LinearLayout
@@ -113,13 +113,13 @@
 
             <ImageView
                 android:id="@+id/idIVIcon"
-                android:layout_width="94dp"
-                android:layout_height="87dp"
+                android:layout_width="85dp"
+                android:layout_height="75dp"
                 android:layout_below="@id/idTVTemperature"
                 android:layout_centerHorizontal="true"
-                android:layout_marginStart="-150dp"
+                android:layout_marginStart="-140dp"
                 android:layout_marginLeft="-135dp"
-                android:layout_marginTop="-30dp"
+                android:layout_marginTop="-32dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_toRightOf="@id/idTVTemperature"
@@ -130,13 +130,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/idIVIcon"
-                android:layout_marginStart="-90dp"
-                android:layout_marginTop="-25dp"
-                android:layout_marginEnd="-5dp"
+                android:layout_marginStart="-100dp"
+                android:layout_marginTop="-9dp"
+                android:layout_marginEnd="-95dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:text="Condição"
-                android:textSize="12dp"
+                android:textSize="10dp"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
 
@@ -151,7 +151,7 @@
                 android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:text="100"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
 
@@ -160,13 +160,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/idTVCondition"
-                android:layout_marginStart="99dp"
+                android:layout_marginStart="102dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="center"
                 android:text="50"
-                android:textSize="15dp"
+                android:textSize="13dp"
                 android:textAlignment="center"
                 android:textColor="@color/white" />
 
@@ -197,7 +197,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/idRVWeather"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="73dp"
                 android:layout_marginBottom="161dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

@@ -103,6 +103,18 @@ public class MainActivity extends AppCompatActivity {
         weatherDaysRV.setAdapter(weatherDaysRVAdapter);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        cityNameImput.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    // Executar a ação de pesquisa aqui
+                    String cityName2 = cityNameImput.getText().toString();
+                    getWeatherInfo(cityName2);
+                    return true;
+                }
+                return false;
+            }
+        });
 
 
 
@@ -211,26 +223,27 @@ public class MainActivity extends AppCompatActivity {
                             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                             LocalDateTime localDateTime = LocalDateTime.parse(localTimeString, formatter);
 
+
                             int hour = localDateTime.getHour();
                             int isDay = response.getJSONObject("current").getInt("is_day");
 
                             if (isDay == 1 ) {
                                 // Dia
-                                backIV.setImageResource(R.drawable.tela1);
+                                backIV.setImageResource(R.drawable.tela_dia);
                                 Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
                                 Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             } else if (hour >= 17 && hour < 18) {
                                 // Tarde
-                                backIV.setImageResource(R.drawable.tela3);
+                                backIV.setImageResource(R.drawable.tela_tarde);
                                 Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
                                 Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
                                 Log.d("TIME_INFO", "Hora extraída (hour): " + hour);
                             } else {
                                 //Noite
-                                backIV.setImageResource(R.drawable.tela2__1_);;
+                                backIV.setImageResource(R.drawable.tela_noite);
                                 Log.d("TIME_INFO", "Hora String (hour): " + localTimeString.length());
                                 Log.d("TIME_INFO", "Hora formatação (hour): " + formatter);
                                 Log.d("TIME_INFO", "Hora formatada (hour): " + localDateTime);
