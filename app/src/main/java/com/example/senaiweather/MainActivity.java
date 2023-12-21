@@ -59,7 +59,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String API_KEY = "4592b054b7b14878bdb83839230212";
+    public String API_KEY = "72a77e4e65ae4c01ae0164848232112";
     public String API_URL = "https://api.weatherapi.com/v1";
     private RelativeLayout homeRL;
     private ProgressBar homeLoading;
@@ -103,27 +103,12 @@ public class MainActivity extends AppCompatActivity {
         weatherDaysRV.setAdapter(weatherDaysRVAdapter);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        cityNameImput.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                    // Executar a ação de pesquisa aqui
-                    String cityName2 = cityNameImput.getText().toString();
-                    getWeatherInfo(cityName2);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
         } else {
-            // Se as permissões já foram concedidas, continua com a obtenção da localização.
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, location -> {
                         if (location != null) {
@@ -136,6 +121,17 @@ public class MainActivity extends AppCompatActivity {
                     });
         }
 
+        cityNameImput.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    String cityName2 = cityNameImput.getText().toString();
+                    getWeatherInfo(cityName2);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         searchIV.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -199,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                             String changeCity = response.getJSONObject("location").getString("name");
                             cityName.setText(changeCity);
                             String changeTemp = response.getJSONObject("current").getString("temp_c");
-                            temperature.setText(String.format("%.1f°C", Float.parseFloat(changeTemp)));
+                            temperature.setText(String.format("%.0f°C", Float.parseFloat(changeTemp)));
 
                             String changeCondition = response.getJSONObject("current").getJSONObject("condition").getString("text");
                             conditionTV.setText(changeCondition);
